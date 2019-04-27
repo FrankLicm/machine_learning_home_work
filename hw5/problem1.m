@@ -2,21 +2,16 @@ close all;
 clear;
 d = 2;
 k = 3;
-n = 1000;
+n = 10000;
 [X,label] = toyexample(d,k,n);
 [label2,mu] = kmeans(X,k);
 figure;
 plotc(X,label2, mu');
 
 function [label, mu] = kmeans(X, m)
-[d,n] = size(X);
-if numel(m) == 1                           
-    mu = X(:,randperm(n,m));
-    [~,label] = min(dot(mu,mu,1)'/2-mu'*X,[],1); 
-elseif all(size(m) == [1,n])               
-elseif size(m,1) == d                     
-    [~,label] = min(dot(m,m,1)'/2-m'*X,[],1); 
-end
+[~,n] = size(X);
+mu = X(:,randperm(n,m));
+[~,label] = min(dot(mu,mu,1)'/2-mu'*X,[],1); 
 n = numel(label);
 idx = 1:n;
 last = zeros(1,n);
@@ -53,6 +48,8 @@ for i = 1:c
    scatter(X(1,idc),X(2,idc),36,color(mod(i-1,m)+1),".");
    plot(center(i,1),center(i,2),"k-s")
 end
+xlabel('X_1')
+ylabel('X_2')
 axis equal
 grid on
 hold off
